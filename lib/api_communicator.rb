@@ -6,19 +6,17 @@ def get_character(character)
   all_characters = RestClient.get('http://www.swapi.co/api/people/')
   character_hash = JSON.parse(all_characters)
 
+
   # iterate over the character hash to find the specific character's hash
   result = nil
   character_hash["results"].each do |person|
     if person["name"] == character
-      #binding.pry
       return result = person
     else
       if JSON.parse(RestClient.get(character_hash["next"])) != "null"
-        #binding.pry
         character_hash = JSON.parse(RestClient.get(character_hash["next"]))
         character_hash["results"].each do |person|
           if person["name"] == character
-          #binding.pry
             return result = person
           end
         end
