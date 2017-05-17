@@ -11,7 +11,19 @@ def get_character(character)
   character_hash["results"].each do |person|
     if person["name"] == character
       #binding.pry
-      result = person
+      return result = person
+    else
+      if JSON.parse(RestClient.get(character_hash["next"])) != "null"
+        #binding.pry
+        character_hash = JSON.parse(RestClient.get(character_hash["next"]))
+        character_hash["results"].each do |person|
+          if person["name"] == character
+          #binding.pry
+            return result = person
+          end
+        end
+      end
+      # how to iterate through pages
     end
   end
   result
