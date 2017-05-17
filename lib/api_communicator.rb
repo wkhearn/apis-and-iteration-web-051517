@@ -11,8 +11,21 @@ def get_character(character)
   result = nil
   character_hash["results"].each do |person|
     if person["name"] == character
-      #binding.pry
-      result = person
+      return result = person
+      
+    else
+      if JSON.parse(RestClient.get(character_hash["next"])) != "null"
+      character_hash= JSON.parse(RestClient.get(character_hash["next"]))
+
+      character_hash["results"].each do |person|
+        if person["name"] == character
+          return result = person
+        end
+      end
+
+    end
+
+
     end
   end
   result
